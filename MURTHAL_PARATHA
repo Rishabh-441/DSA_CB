@@ -1,0 +1,43 @@
+import java.util.*;
+public class Main {
+    public static void main(String args[]) {
+        // Your Code Here
+		Scanner sc = new Scanner(System.in);
+		int l = sc.nextInt();
+		for (int i = 0; i < l; i++) {
+			long n = sc.nextLong();
+			long k = sc.nextLong();
+			System.out.println(find(n, k));
+		}
+    }
+	public static long find (long n, long k) {
+		long s = 0;
+		long e = n;
+		long ans = 0;
+		while (s <= e) {
+			long mid = s + (e - s) / 2;
+			if (Math.pow(mid, k) <= n) {
+				ans = mid;
+				s = mid + 1;
+			}
+			else {
+				e = mid - 1;
+			}
+		}
+		return ans;
+	}
+    public static boolean checkMid(int[] arr, int time, int p) {
+		int count = 0;
+		for (int i = 0; i < arr.length; i++) {
+			int j = 2;
+			int checkT = arr[i];
+			while(checkT <= time) {
+				count++;
+				checkT = checkT + arr[i] * j;
+				j++;
+			}
+		}
+		if (count >= p) return true;
+		return false;
+	}
+}
