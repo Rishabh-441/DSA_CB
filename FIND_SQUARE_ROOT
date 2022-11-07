@@ -1,0 +1,23 @@
+import java.util.*;
+public class Main {
+    public static void main (String args[]) {
+            Scanner sc = new Scanner(System.in);
+            System.out.println(sqrt(sc.nextLong()));
+    }
+    public static long sqrt(long n) {
+        long s = 1;
+        long e = n;
+        long ans = 0;
+        while (s <= e) {
+                long mid = s + (e - s) / 2;
+                if (mid * mid <= n) {
+                        ans = mid;
+                        s = mid + 1;
+                }
+                else {
+                        e = mid - 1;
+                }
+        }
+        return ans;
+    }
+}
