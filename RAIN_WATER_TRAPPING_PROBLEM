@@ -1,0 +1,63 @@
+import java.util.*;
+public class Main {
+    public static void main(String args[]) {
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		for (int i = 0; i < n; i++) {
+			int len = sc.nextInt();
+			int[] arr = new int[len];
+			for (int j = 0; j < len; j++) {
+				arr[j] = sc.nextInt();
+			}
+			System.out.println(trap(arr));
+		}
+    }
+	public static int trap(int[] arr) {
+        int[] left = leftBig(arr);
+		int[] right = rightBig(arr);
+		// System.out.println(Arrays.toString(left));
+		// System.out.println(Arrays.toString(right));
+		int water = 0;
+
+		for (int i = 0 ; i < arr.length; i++) {
+			int min = Math.min(left[i], right[i]);
+
+			if (min != -1) {
+				water += min - arr[i];
+			}
+		}
+		return water;
+    }
+
+	public static int[] leftBig(int[] arr) {
+		int[] left = new int[arr.length];
+		int leftMax = arr[0];
+		left[0] = -1;
+		for (int i = 1; i < arr.length; i++) {
+			if (arr[i] >= leftMax) {
+				leftMax = arr[i];
+				left[i] = -1;
+			}
+			else {
+				left[i] = leftMax;
+			}
+		}
+		return left;
+	}
+
+	public static int[] rightBig(int[] arr) {
+		int[] right = new int[arr.length];
+		right[arr.length - 1] = -1;
+		int rightMax = arr[arr.length - 1];
+		for (int i = arr.length - 2; i >= 0; i--) {
+			if (arr[i] >= rightMax) {
+				rightMax = arr[i];
+				right[i] = -1;
+			}
+			else {
+				right[i] = rightMax;
+			}
+		}
+		return right;
+	}
+}
