@@ -20,7 +20,7 @@ public class Main {
             }
             //window shrink
             while (flip > k) {
-                if (str.charAt(j) == ch) {
+                if (str.charAt(i) == ch) {
                     flip--;
                 }
                 i++;
