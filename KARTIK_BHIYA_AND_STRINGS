@@ -1,0 +1,35 @@
+import java.util.*;
+public class Main {
+     public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int k = sc.nextInt();
+        String str = sc.next();
+        
+        System.out.println(Math.max(fun(str, k, 'a'), fun(str, k, 'b')));
+    }
+
+    private static int fun(String str, int k, char ch) {
+        int i = 0;
+        int j = 0;
+        int flip = 0;
+        int maxLen = 0;
+//        int currLen = 0;
+        while (j < str.length()) {
+            if (str.charAt(j) == ch) {
+                flip++;
+            }
+            //window shrink
+            while (flip > k) {
+                if (str.charAt(j) == ch) {
+                    flip--;
+                }
+                i++;
+            }
+
+            //calc ans
+            maxLen = Math.max(maxLen, (j - i + 1));
+            j++;
+        }
+        return maxLen;
+    }
+}
