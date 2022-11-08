@@ -1,0 +1,33 @@
+class Solution {
+    public String largestNumber(int[] nums) {
+        for (int i = 0; i < nums.length - 1; i++) {
+            for (int j = i+1; j < nums.length; j++) {
+                if (checkPos(nums, i, j)) {
+                    swap(nums, i, j);
+                }
+            }
+        }
+        String ans = "";
+        for (int x : nums) {
+            ans += x;
+        }
+        if (ans.charAt(0) == '0') return "0";
+        return ans;
+    }
+    
+    public boolean checkPos(int[] nums, int i, int j) {
+        String num1 = nums[i] + "" + nums[j];
+        String num2 = nums[j] + "" + nums[i];
+        long ij = Long.parseLong(num1);
+        long ji = Long.parseLong(num2);
+        
+        if (ij >= ji) return false;
+        return true;
+    }
+    
+    public void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}
