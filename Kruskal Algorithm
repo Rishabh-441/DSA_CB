@@ -1,0 +1,73 @@
+class Solution{
+    static class Pair {
+        int wt;
+        int v1;
+        int v2;
+        
+        public Pair(int wt, int v1, int v2) {
+            this.wt = wt;
+            this.v1 = v1;
+            this.v2 = v2;
+        }
+        
+        public String toString() {
+            return "[ wt : " + this.wt + " , v1 : " + this.v1 + " , v2  : " + this.v2 + "]"; 
+        }
+    }
+    
+    static int[] par;
+    static int[] rank;
+    
+	static int spanningTree(int n, int e, int edges[][]){
+	    // Code Here. 
+	    par = new int[n];
+	    rank = new int[n];
+	    
+	    for (int i = 0; i < n; i++) {
+	        par[i] = i;
+	    }
+	    
+	    PriorityQueue<Pair> q = new PriorityQueue<>(new Comparator<Pair>() {
+            @Override
+            public int compare(Pair o1, Pair o2) {
+                return o1.wt-o2.wt;
+            }
+        });
+	    
+	    for (int[] x : edges) {
+	        q.add(new Pair(x[2], x[1], x[0]));
+	    }
+	    
+	    int ans = 0;
+	    
+	    while (!q.isEmpty()) {
+	        Pair pair = q.poll();
+	        
+	        if (find(pair.v1) == find(pair.v2)) continue;
+	        union(pair.v1, pair.v2);
+	        ans += pair.wt;
+	    }
+	    
+	    return ans;
+	}
+	
+	public static void union(int a, int b) {
+	    int p1 = find(a);
+	    int p2 = find(b);
+	    
+	    if (rank[p1] > rank[p2]) {
+	        par[p2] = p1;
+	        rank[p2]++;
+	    }
+	    else {
+	        par[p1] = p2;
+	        rank[p1]++;
+	    }
+	}
+	
+	
+	public static int find(int a) {
+	    if (par[a] == a) return a;
+	    return par[a] = find(par[a]);
+	}
+}
