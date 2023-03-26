@@ -1,0 +1,36 @@
+class Solution
+{
+    //Function to merge two nodes a and b.
+    public void union_(int a, int b, int par[], int rank[])
+    {
+        // add your code here
+        int p1 = find(a, par);
+        int p2 = find(b, par);
+        
+        if (rank[p1] > rank[p2]) {
+            par[p2] = p1;
+            rank[p2]++;
+        }
+        else {
+            par[p1] = p2;
+            rank[p1]++;
+        }
+    }
+    
+    public int find(int v, int[] par) {
+        if (par[v] == v) return v;
+        return par[v] = find(par[v], par);
+    }
+
+    //Function to check whether 2 nodes are connected or not.
+    public Boolean isConnected(int a, int b, int par[], int rank[])
+    {
+        // add your code here
+        int f1 = find(a, par);
+        int f2 = find(b, par);
+        
+        if (f1 == f2) return true;
+        return false;
+    }
+
+}
