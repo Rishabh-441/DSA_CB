@@ -1,0 +1,80 @@
+class Solution
+{
+    Stack<Integer> dStack = new Stack<>();
+    
+    //Function to find number of strongly connected components in the graph.
+    public int kosaraju(int V, ArrayList<ArrayList<Integer>> adj)
+    {
+        //code here
+        // System.out.println(adj);
+        boolean[] visited = new boolean[V];
+        for (int i = 0; i < V; i++) {
+            dfs(i, visited, adj);
+        }
+        
+        // System.out.println(dStack);
+        
+        // HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+        
+        ArrayList<ArrayList<Integer>> nMap = new ArrayList<>();
+        
+        for (int i = 0; i < adj.size(); i++) {
+            nMap.add(new ArrayList<Integer>());
+        }
+        
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < adj.get(i).size(); j++) {
+                nMap.get(adj.get(i).get(j)).add(i);
+            }
+        }
+        
+        // System.out.println(nMap);
+        
+        boolean[] check = new boolean[V];
+        int count = 0;
+        while (!dStack.isEmpty()) {
+            int node = dStack.pop();
+            // System.out.println(Arrays.toString(check));
+            if (check[node]) continue;
+            // System.out.println(Arrays.toString(check));
+            count++;
+            dfsX(node, check, nMap);
+        }
+        
+        
+        return count;
+    }
+    
+    public void dfs(int src, boolean[] visited, ArrayList<ArrayList<Integer>> adj) {
+        if (visited[src]) return;
+        
+        
+        visited[src] = true;
+        if(adj.get(src) != null) {
+            for (int i = 0; i < adj.get(src).size(); i++) {
+                if (!visited[adj.get(src).get(i)])
+                dfs(adj.get(src).get(i), visited, adj);
+            }
+        }
+        
+        dStack.push(src);
+        
+        
+        
+        
+    }
+    
+    
+    public void dfsX(int src, boolean[] visited, ArrayList<ArrayList<Integer>> adj) {
+        if (visited[src]) return;
+        
+        
+        visited[src] = true;
+        if(adj.get(src) != null) {
+            for (int i = 0; i < adj.get(src).size(); i++) {
+                if (!visited[adj.get(src).get(i)])
+                dfs(adj.get(src).get(i), visited, adj);
+            }
+        }
+    }
+}
