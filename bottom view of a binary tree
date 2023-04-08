@@ -1,0 +1,61 @@
+class Solution {
+    int min = 0;
+    int max = 0;
+
+    class Pair {
+        Node node;
+        int x;
+        int y;
+
+        Pair (Node node, int x, int y) {
+            this.node = node;
+            this.x = x;
+            this.y = y;
+        }
+    }
+    public ArrayList <Integer> bottomView(Node root) {
+        HashMap<Integer, Pair> map = new HashMap<>();
+        Queue<Pair> q = new LinkedList<>();
+
+        Pair p = new Pair(root, 0,0);
+
+        q.add(p);
+        int count = 1;
+
+        while (!q.isEmpty()) {
+            int len = count;
+            count = 0;
+            for (int i = 0; i < len; i++) {
+                Pair pair = q.poll();
+                map.put(pair.x, pair);
+
+                
+
+                if (pair.node.left != null) {
+                    q.add(new Pair(pair.node.left, pair.x-1, pair.y-1));
+                    if (pair.x-1 < min) {
+                        min = pair.x-1;
+                    }
+                    count++;
+                }
+                if (pair.node.right != null) {
+                    q.add(new Pair(pair.node.right, pair.x+1, pair.y-1));
+                    if (pair.x+1 > max) {
+                        max = pair.x+1;
+                    }
+                    count++;
+                }
+            }
+        }
+
+        ArrayList<Integer> list = new ArrayList<>();
+        
+        for (int i = min; i <= max; i++) {
+            list.add(map.get(i).node.data);
+        }
+
+
+        return list;
+
+    }
+}
