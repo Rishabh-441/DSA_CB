@@ -1,0 +1,38 @@
+class Solution 
+{ 
+    //Function to return max value that can be put in knapsack of capacity W.
+    static int[][] mat;
+    static int knapSack(int w, int wt[], int val[], int n) 
+    { 
+        if (n == 0 || w == 0) return 0;
+         // your code here 
+         
+        mat = new int[w+1][n];
+        
+        for (int[] x : mat) {
+            Arrays.fill(x, -1);
+        }
+         
+         return helper(w, wt, val, n, 0);
+    } 
+    
+    public static int helper(int w, int[] wt, int[] val, int n, int i) {
+        if (i >= n) return 0;
+        if (mat[w][i] != -1) {
+            return mat[w][i];
+        }
+        int ans = 0;
+        
+        if (wt[i] <= w) {
+            int a1 = val[i] + helper(w-wt[i], wt, val, n, i+1);
+            int a2 = helper(w, wt, val, n, i+1);
+            ans = Math.max(a1, a2);
+        }
+        else {
+            ans = helper(w, wt, val, n, i+1);
+        }
+        
+        mat[w][i] = ans;
+        return ans;
+    }
+}
