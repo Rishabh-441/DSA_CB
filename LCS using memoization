@@ -1,0 +1,42 @@
+class Solution
+{
+    //Function to find the length of longest common subsequence in two strings.
+    static int[][] mat;
+    static int lcs(int x, int y, String s1, String s2)
+    {
+        // your code here
+        mat = new int[x+1][y+1];
+        for (int i = 0; i < x+1; i++) {
+            for (int j = 0; j < y+1; j++) {
+                if (i == 0 || j == 0) {
+                    mat[i][j] = 0;
+                }
+                else mat[i][j] = -1;
+            }
+        }
+        
+        return helper(x, y, s1, s2);
+        
+    }
+    
+    public static int helper(int x, int y, String s1, String s2) {
+        
+        if (mat[x][y] != -1) return mat[x][y];
+        
+        int ans = 0;
+        
+        if (s1.charAt(x-1) == s2.charAt(y-1)) {
+            
+            int val = helper(x-1, y-1, s1, s2);
+            ans = 1 + val;
+        }
+        else {
+            int x1 = helper(x-1, y, s1, s2);
+            int x2 = helper(x, y-1, s1, s2);
+            ans = Math.max(x1, x2);
+        }
+        
+        return mat[x][y] = ans;
+    }
+}
+
