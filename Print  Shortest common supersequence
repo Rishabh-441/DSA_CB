@@ -1,0 +1,64 @@
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+    static int[][] mat;
+    public static String shortestSupersequence(String s1, String s2) {
+        int m = s1.length();
+	    int n = s2.length();
+	    mat = new int[m+1][n+1];
+        for (int i = 0; i < m+1; i++) {
+            for (int j = 0; j < n+1; j++) {
+                mat[i][j] = -1;
+                if (i == 0 || j == 0) mat[i][j] = 0;
+            }
+        }
+        
+        int max = 0;
+
+        for (int i = 1; i < m+1; i++) {
+            for (int j = 1; j < n+1; j++) {
+                if (s1.charAt(i-1) == s2.charAt(j-1)) {
+                    mat[i][j] = 1 + mat[i-1][j-1];
+                }
+                else {
+                    mat[i][j] = Math.max(mat[i-1][j], mat[i][j-1]);
+                }
+            }
+        }
+
+        StringBuilder str = new StringBuilder();
+
+        int x = n;
+        int y = m;
+
+        while (x > 0 && y > 0) {
+            if (s1.charAt(y-1) == s2.charAt(x-1)) {
+                str.append(s1.charAt(y-1));
+                x--;
+                y--;
+            }
+            else {
+                if (mat[y][x-1] >= mat[y-1][x]) {
+                    str.append(s2.charAt(x-1));
+                    x--;
+                }
+                else {
+                    str.append(s1.charAt(y-1));
+                    y--;
+                }
+            }
+        }
+        while (x > 0) {
+            str.append(s2.charAt(x-1));
+            x--;
+        }
+        while (y > 0) {
+            str.append(s1.charAt(y-1));
+            y--;
+        }
+        str.reverse();
+        return str.toString();
+
+    }
+
+}
