@@ -1,0 +1,58 @@
+class Solution{
+    static class Dpair{
+        int val;
+        int cost;
+        
+        Dpair(int val, int cost) {
+            this.val = val;
+            this.cost = cost;
+        }
+    }
+	static int spanningTree(int n, int m, int edges[][]){
+	    // Code Here. 
+	    PriorityQueue<Dpair> pq = new PriorityQueue<>(new Comparator<Dpair>() {
+	        public int compare(Dpair o1, Dpair o2) {
+	            return o1.cost - o2.cost;
+	        }
+	    });
+	    
+	    HashMap<Integer, HashMap<Integer, Integer>> map = new HashMap<>();
+	    
+	    for (int[] x : edges) {
+	        if (!map.containsKey(x[0])) map.put(x[0], new HashMap<>());
+	        if (!map.containsKey(x[1])) map.put(x[1], new HashMap<>());
+	        
+	        
+	        map.get(x[0]).put(x[1], x[2]);
+	        map.get(x[1]).put(x[0], x[2]);
+	    }
+	    
+	    int ans = 0;
+	    
+	    boolean[] visited = new boolean[n];
+	    for (int i = 0 ; i < n; i++) {
+	        if (visited[i]) continue;
+	        
+	        pq.add(new Dpair(i, 0));
+	        
+	        while (!pq.isEmpty()) {
+	            Dpair pair = pq.poll();
+	            if(visited[pair.val]) continue;
+	            visited[pair.val] = true;
+	            ans += pair.cost;
+	            
+	            
+	            if (map.get(pair.val) != null)
+	            for (int nbrs : map.get(pair.val).keySet()) {
+	                if (!visited[nbrs]) {
+	                    pq.add(new Dpair(nbrs, map.get(pair.val).get(nbrs)));
+	                }
+	            }
+	        }
+	    }
+	    
+	    return ans;
+	    
+	    
+	}
+}
